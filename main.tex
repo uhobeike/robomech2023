@@ -97,7 +97,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 
 \section{手法}%===========================
 
-　主なアルゴリズムの流れを図\ref{fig: つくばチャレンジ人混み}に示す。
+主なアルゴリズムの流れを図\ref{fig: つくばチャレンジ人混み}に示す。
 初期化の部分で各パーティクルごとにランダムな観測範囲を付与する。
 次に、動作モデルと観測モデルによる更新、リサンプリングを行うことで、
 未知障害物が含まれていないような観測範囲をMCLのアルゴリズムによって求める。
@@ -178,8 +178,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 
 \subsection{完走率}
 表\ref{table:完走率}に各パーティクルの条件での完走率を示す。
-結果からは、観測範囲が狭くなるほど完走率が上がっていることがわかる。
-
+結果からは、観測範囲が狭くなるほど完走率が大きくなっていることがわかる。
 
 完走率を求めるための試行量が足りているかについては、
 図\ref{fig: 完走率の分布}を見ていただきたい。
@@ -198,16 +197,27 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
   \label{table:完走率}
   \begin{tabular}{|c|r|r|r|} \hline
   条件番号 & パーティクル数 & 観測範囲  & 完走確率 \\ \hline \hline
-  1 & 3000 & 10° & 0.52 \\ \hline
-  2 & 3000 & 360° & 0 \\ \hline
-  3 & 10000 & 1° & 0.28 \\ \hline
-  4 & 10000 & 10° & 0.54 \\ \hline
-  5 & 10000 & 45° & 0.04 \\ \hline
-  6 & 10000 & 90° & 0 \\ \hline
-  7 & 10000 & 360° & 0 \\ \hline
-  8 & 10000 & 1$\sim$15° & 0.54 \\ \hline
+  \textcircled{\scriptsize 1} & 3000 & 10° & 0.52 \\ \hline
+  \textcircled{\scriptsize 2} & 3000 & 360° & 0 \\ \hline
+  \textcircled{\scriptsize 3} & 10000 & 1° & 0.28 \\ \hline
+  \textcircled{\scriptsize 4} & 10000 & 10° & 0.54 \\ \hline
+  \textcircled{\scriptsize 5} & 10000 & 45° & 0.04 \\ \hline
+  \textcircled{\scriptsize 6} & 10000 & 90° & 0 \\ \hline
+  \textcircled{\scriptsize 7} & 10000 & 360° & 0 \\ \hline
+  \textcircled{\scriptsize 8} & 10000 & 1$\sim$15° & 0.54 \\ \hline
   \end{tabular}
 \end{table}
+
+
+各パーティクルの条件において、自己位置推定が破綻した場所を
+図\ref{fig: 失敗箇所}に示す。
+\textcircled{\scriptsize 2}\textcircled{\scriptsize 5}\noindent
+\textcircled{\scriptsize 6}\textcircled{\scriptsize 7}\noindent
+の条件は、スタートから12mあたり、
+\textcircled{\scriptsize 3}\textcircled{\scriptsize 4}\noindent
+\textcircled{\scriptsize 5}\textcircled{\scriptsize 8}\noindent
+の条件は、スタートから30mのあたりで
+自己位置推定が破綻することがあった。
 
 \begin{figure}[h]
   \centering
