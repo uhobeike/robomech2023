@@ -81,7 +81,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 動的障害物やランドマークの移動・除去に関する環境変化に対して、
 頑健に位置推定ができることを確認した．
 
-これらの従来研究の未知障害物を観測に含めないことにより、自己位置推定の破綻を防ぐという
+これらの従来研究の未知障害物を観測に含めないことにより自己位置推定の破綻を防ぐという
 考えから、パーティクルごとに観測範囲を持たせるというアイデアを得た。
 そこで、本稿では、そのアイデアをMCLに実装し、実装後のMCLの性能について評価を行う。
 2章では、未知障害物対策を実装したMCL、3章では実装したMCLの性能評価を行うための実験、
@@ -153,7 +153,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 
 \begin{figure}[h]
   \centering
-   \includegraphics[height=140mm]{fig/simulator.eps}
+   \includegraphics[height=100mm]{fig/simulator.eps}
    \vspace*{-4mm}
    \caption{A simulator that mimics the crowds at the start of Tsukuba Challenge 2022}
    \label{fig: つくばチャレンジ人混みシミュレータ}
@@ -176,11 +176,46 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 
 \section{実験結果}%===========================
 
-表\ref{table:data_type}に完走率の結果を示す。
-試行量が足りているかということについては、
-図\ref{fig: つくばチャレンジ人混み}を見ていただきたい。
+\subsection{完走率}
+表\ref{table:完走率}に各パーティクルの条件での完走率を示す。
+結果からは、観測範囲が狭くなるほど完走率が上がっていることがわかる。
+
+
+完走率を求めるための試行量が足りているかについては、
+図\ref{fig: 完走率の分布}を見ていただきたい。
 各完走率の分布の重複部が少ないことから十分な試行であることがわかる。
 
+\begin{figure}[htbp]
+  \centering
+   \includegraphics[height=50mm]{fig/kansouritsu.eps}
+   \vspace*{-4mm}
+   \caption{Distribution of completion rates under certain particle conditions}
+   \label{fig: 完走率の分布}
+\end{figure}
+
+\begin{table}[htbp]
+  \caption{completion rate under certain particle conditions}
+  \label{table:完走率}
+  \begin{tabular}{|c|r|r|r|} \hline
+  条件番号 & パーティクル数 & 観測範囲  & 完走確率 \\ \hline \hline
+  1 & 3000 & 10° & 0.52 \\ \hline
+  2 & 3000 & 360° & 0 \\ \hline
+  3 & 10000 & 1° & 0.28 \\ \hline
+  4 & 10000 & 10° & 0.54 \\ \hline
+  5 & 10000 & 45° & 0.04 \\ \hline
+  6 & 10000 & 90° & 0 \\ \hline
+  7 & 10000 & 360° & 0 \\ \hline
+  8 & 10000 & 1$\sim$15° & 0.54 \\ \hline
+  \end{tabular}
+\end{table}
+
+\begin{figure}[h]
+  \centering
+   \includegraphics[height=100mm]{fig/failure_location.eps}
+   \vspace*{-4mm}
+   \caption{Where localization has broken down}
+   \label{fig: 失敗箇所}
+\end{figure}
 
 
 \section{結言}%===========================
