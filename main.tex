@@ -197,27 +197,33 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
   \label{table:完走率}
   \begin{tabular}{|c|r|r|r|} \hline
   条件番号 & パーティクル数 & 観測範囲  & 完走確率 \\ \hline \hline
-  \textcircled{\scriptsize 1} & 3000 & 10° & 0.52 \\ \hline
-  \textcircled{\scriptsize 2} & 3000 & 360° & 0 \\ \hline
-  \textcircled{\scriptsize 3} & 10000 & 1° & 0.28 \\ \hline
-  \textcircled{\scriptsize 4} & 10000 & 10° & 0.54 \\ \hline
-  \textcircled{\scriptsize 5} & 10000 & 45° & 0.04 \\ \hline
-  \textcircled{\scriptsize 6} & 10000 & 90° & 0 \\ \hline
-  \textcircled{\scriptsize 7} & 10000 & 360° & 0 \\ \hline
-  \textcircled{\scriptsize 8} & 10000 & 1$\sim$15° & 0.54 \\ \hline
+  \textcircled{\scriptsize 1} & 3000 & 0° & 0 \\ \hline
+  \textcircled{\scriptsize 2} & 3000 & 10° & 0.52 \\ \hline
+  \textcircled{\scriptsize 3} & 3000 & 360° & 0 \\ \hline
+  \textcircled{\scriptsize 4} & 10000 & 0° & 0 \\ \hline
+  \textcircled{\scriptsize 5} & 10000 & 1° & 0.28 \\ \hline
+  \textcircled{\scriptsize 6} & 10000 & 10° & 0.54 \\ \hline
+  \textcircled{\scriptsize 7} & 10000 & 45° & 0.04 \\ \hline
+  \textcircled{\scriptsize 8} & 10000 & 90° & 0 \\ \hline
+  \textcircled{\scriptsize 9} & 10000 & 360° & 0 \\ \hline
+  \textcircled{\scriptsize 10} & 10000 & 1$\sim$15° & 0.54 \\ \hline
   \end{tabular}
 \end{table}
 
 
 各パーティクルの条件において、自己位置推定が破綻した場所を
 図\ref{fig: 失敗箇所}に示す。
-\textcircled{\scriptsize 2}\textcircled{\scriptsize 5}\noindent
-\textcircled{\scriptsize 6}\textcircled{\scriptsize 7}\noindent
+\textcircled{\scriptsize 3}\textcircled{\scriptsize 5}\noindent
+\textcircled{\scriptsize 8}\textcircled{\scriptsize 9}\noindent
 の条件は、スタートから12mあたり、
-\textcircled{\scriptsize 3}\textcircled{\scriptsize 4}\noindent
-\textcircled{\scriptsize 5}\textcircled{\scriptsize 8}\noindent
+\textcircled{\scriptsize 2}\textcircled{\scriptsize 6}\noindent
+\textcircled{\scriptsize 7}\textcircled{\scriptsize 10}\noindent
 の条件は、スタートから30mのあたりで
 自己位置推定が破綻することがあった。
+\textcircled{\scriptsize 1}\textcircled{\scriptsize 4}\noindent
+は観測範囲が0であるため、推定値と真値が徐々にずれていった。
+ゴール地点に到達した時には20mもの誤差になった。
+
 
 \begin{figure}[h]
   \centering
