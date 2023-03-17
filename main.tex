@@ -142,7 +142,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 実験に用いるシミュレータ内のロボットは、図\ref{fig: raspicat}のような差動二輪型のロボットである。
 ロボットおよび搭載しているセンサの性能について、表\ref{table: ロボットおよび搭載しているセンサの性能}に示す。
 1mの高さに2D LiDARを搭載しており、2D LiDARの観測範囲は360°であり、角度分解能は1°である。
-また、ロボットの最高速度は、3[m/s]である。
+ロボットの最高速度は、3[m/s]である。
 
 
 \begin{table}[hbtp]
@@ -215,6 +215,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 \section{実験結果}%===========================
 
 \subsection{完走率}
+
 表\ref{table:完走率}に各パーティクルの条件での完走率を示す。
 結果からは、観測範囲が狭くなるほど完走率が大きくなっていることがわかる。
 
@@ -262,7 +263,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 は観測範囲が0であるため、推定値と真値が徐々にずれていった。
 ゴール地点に到達した時には20mもの誤差になった。
 
-\begin{figure}[h!]
+\begin{figure}[htbp]
   \centering
    \includegraphics[height=100mm]{fig/failure_location.png}
    \vspace*{-4mm}
@@ -270,7 +271,9 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
    \label{fig: 失敗箇所}
 \end{figure}
 
-\begin{figure}[h!]
+\subsection{自己位置推定の誤差}
+
+\begin{figure}[htbp]
   \centering
    \includegraphics[height=50mm]{fig/x_y.png}
    \vspace*{-4mm}
@@ -278,7 +281,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
    \label{fig: 失敗箇所}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[htbp]
   \centering
    \includegraphics[height=50mm]{fig/euclidean_error.png}
    \vspace*{-4mm}
@@ -286,7 +289,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
    \label{fig: 失敗箇所}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[htbp]
   \centering
    \includegraphics[height=50mm]{fig/lateral_error.png}
    \vspace*{-4mm}
@@ -294,7 +297,9 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
    \label{fig: 失敗箇所}
 \end{figure}
 
-\begin{figure}[h!]
+\subsection{手法を実装したMCLで使用されている観測範囲}
+
+\begin{figure}[htbp]
   \centering
    \includegraphics[height=100mm]{fig/particle_1000_observation_1_mcl_gazebo.png}
    \vspace*{-4mm}
@@ -302,7 +307,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
    \label{fig: 失敗箇所}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[htbp]
   \centering
    \includegraphics[height=100mm]{fig/particle_1000_observation_1_mcl_rviz.png}
    \vspace*{-4mm}
