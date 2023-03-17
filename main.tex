@@ -1,9 +1,10 @@
 \documentclass{jarticle}
 \usepackage{robomech}
-\usepackage{graphicx}
 
 \usepackage{mathrsfs}
 \usepackage{bm}
+\usepackage[dvipdfmx]{graphicx}
+
 
 \begin{document}
 \makeatletter
@@ -87,9 +88,9 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 2章では、未知障害物対策を実装したMCL、3章では実装したMCLの性能評価を行うための実験、
 4章では実験結果から性能評価を行い、最後に結言で本稿をまとめる。
 
-\begin{figure}[h]
+\begin{figure}[h!]
   \centering
-   \includegraphics[height=38mm]{fig/hitogomi.eps}
+   \includegraphics[height=38mm]{fig/hitogomi.png}
    \vspace*{-4mm}
    \caption{Crowds at the start of the Tsukuba Challenge 2022}
    \label{fig: つくばチャレンジ人混み}
@@ -151,13 +152,29 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
   \end{tabular}
 \end{table}
 
-\begin{figure}[h]
+\begin{figure}[h!]
   \centering
-   \includegraphics[height=100mm]{fig/simulator.eps}
+   \includegraphics[height=50mm]{fig/hitogomi_gazebo.png}
+   \vspace*{-4mm}
+   \caption{Where localization has broken down}
+   \label{fig: 失敗箇所}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+   \includegraphics[height=60mm]{fig/environment_comparison.png}
    \vspace*{-4mm}
    \caption{A simulator that mimics the crowds at the start of Tsukuba Challenge 2022}
    \label{fig: つくばチャレンジ人混みシミュレータ}
- \end{figure}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+   \includegraphics[height=50mm]{fig/raspicat_gazebo.png}
+   \vspace*{-4mm}
+   \caption{Where localization has broken down}
+   \label{fig: 失敗箇所}
+\end{figure}
 
 \subsection{実験方法}
 
@@ -184,9 +201,9 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 図\ref{fig: 完走率の分布}を見ていただきたい。
 各完走率の分布の重複部が少ないことから十分な試行であることがわかる。
 
-\begin{figure}[htbp]
+\begin{figure}[h!]
   \centering
-   \includegraphics[height=50mm]{fig/kansouritsu.eps}
+   \includegraphics[height=50mm]{fig/kansouritsu.png}
    \vspace*{-4mm}
    \caption{Distribution of completion rates under certain particle conditions}
    \label{fig: 完走率の分布}
@@ -224,10 +241,49 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 は観測範囲が0であるため、推定値と真値が徐々にずれていった。
 ゴール地点に到達した時には20mもの誤差になった。
 
-
-\begin{figure}[h]
+\begin{figure}[h!]
   \centering
-   \includegraphics[height=100mm]{fig/failure_location.eps}
+   \includegraphics[height=100mm]{fig/failure_location.png}
+   \vspace*{-4mm}
+   \caption{Where localization has broken down}
+   \label{fig: 失敗箇所}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+   \includegraphics[height=50mm]{fig/x_y.png}
+   \vspace*{-4mm}
+   \caption{Where localization has broken down}
+   \label{fig: 失敗箇所}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+   \includegraphics[height=50mm]{fig/euclidean_error.png}
+   \vspace*{-4mm}
+   \caption{Where localization has broken down}
+   \label{fig: 失敗箇所}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+   \includegraphics[height=50mm]{fig/lateral_error.png}
+   \vspace*{-4mm}
+   \caption{Where localization has broken down}
+   \label{fig: 失敗箇所}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+   \includegraphics[height=100mm]{fig/particle_1000_observation_1_mcl_gazebo.png}
+   \vspace*{-4mm}
+   \caption{Where localization has broken down}
+   \label{fig: 失敗箇所}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+   \includegraphics[height=100mm]{fig/particle_1000_observation_1_mcl_rviz.png}
    \vspace*{-4mm}
    \caption{Where localization has broken down}
    \label{fig: 失敗箇所}
