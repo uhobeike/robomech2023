@@ -4,7 +4,7 @@
 \usepackage{mathrsfs}
 \usepackage{bm}
 \usepackage[dvipdfmx]{graphicx}
-
+\usepackage{enumerate}
 
 \begin{document}
 \makeatletter
@@ -201,18 +201,29 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 
 \subsection{実験方法}
 
-とする。
+実験方法は以下のとおりである。
+\noindent
+\begin{enumerate}[A]
+  \item スタートからゴールまでオンラインでロボットのナビゲーションをする
+  \item 事前にジョイスティックでロボットをスタートからゴールまで動かす。
+        その間、得られた観測情報等を記録したデータを後から再生し、オフラインで自己位置推定をする。
+\end{enumerate}
+\noindent
+スタートとゴールは、図\ref{fig: スタートからゴールまでナビゲーションガゼボ}に示された位置である。
 
-そのため、今回の実験での評価項目は以下のようになる。
-
+今回の実験の評価項目は、以下のとおりである。
 \begin{itemize}
   \item スタートからゴールまでの完走率
-  \begin{itemize}
-    \item 未知障害物対応に最適な観測範囲
-  \end{itemize}
   \item スタートからゴールまで走行したときの真値との比較
-  \item 計算時間
+  \item パーティクルの観測更新に最も使用された観測
+  \item 計算時間の増減
 \end{itemize}
+
+\subsection{実験目的}
+
+色々なパターンのパーティクルの条件で実験を行う。
+パーティクルの条件については、後述で説明する。
+3.2節で説明した実験の評価から良さそうなパーティクルの条件とその性能について求めることが、今回の実験目的である。
 
 \section{実験結果}%===========================
 
@@ -224,14 +235,6 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 完走率を求めるための試行量が足りているかについては、
 図\ref{fig: 完走率の分布}を見ていただきたい。
 各完走率の分布の重複部が少ないことから十分な試行であることがわかる。
-
-\begin{figure}[h!]
-  \centering
-   \includegraphics[height=50mm]{fig/kansouritsu.png}
-   \vspace*{-4mm}
-   \caption{Distribution of completion rates under certain particle conditions}
-   \label{fig: 完走率の分布}
-\end{figure}
 
 \begin{table}[htbp]
   \caption{completion rate under certain particle conditions}
@@ -251,6 +254,13 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
   \end{tabular}
 \end{table}
 
+\begin{figure}[htbp]
+  \centering
+   \includegraphics[height=50mm]{fig/kansouritsu.png}
+   \vspace*{-4mm}
+   \caption{Distribution of completion rates under certain particle conditions}
+   \label{fig: 完走率の分布}
+\end{figure}
 
 各パーティクルの条件において、自己位置推定が破綻した場所を
 図\ref{fig: 失敗箇所}に示す。
@@ -305,8 +315,8 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
   \centering
    \includegraphics[height=100mm]{fig/particle_1000_observation_1_mcl_gazebo.png}
    \vspace*{-4mm}
-   \caption{Where localization has broken down}
-   \label{fig: 失敗箇所}
+   \caption{The robot navigates from the start to the goal.}
+   \label{fig: スタートからゴールまでナビゲーションガゼボ}
 \end{figure}
 
 \begin{figure}[htbp]
