@@ -209,14 +209,15 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
         その間、得られた観測情報等を記録したデータを後から再生し、オフラインで自己位置推定をする。
 \end{enumerate}
 \noindent
-スタートとゴールは、図\ref{fig: スタートからゴールまでナビゲーションガゼボ}に示された位置である。
+スタートとゴールは、それぞれ図\ref{fig: スタートからゴールまでナビゲーション}
+に示された位置である。
 
 今回の実験の評価項目は、以下のとおりである。
 \begin{itemize}
-  \item スタートからゴールまでの完走率
-  \item スタートからゴールまで走行したときの真値との比較
-  \item パーティクルの観測更新に最も使用された観測
-  \item 計算時間の増減
+  \item スタートからゴールまでの完走率（実験方法A）
+  \item スタートからゴールまで走行したときの真値との比較（実験方法B）
+  \item パーティクルの観測更新に最も使用された観測（実験方法A）
+  \item 計算時間の増減（実験方法A）
 \end{itemize}
 
 \subsection{実験目的}
@@ -229,7 +230,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 
 \subsection{完走率}
 
-表\ref{table:完走率}に各パーティクルの条件での完走率を示す。
+表\ref{table:完走率}に、実験方法Aにより求めた、各パーティクルの条件での完走率を示す。
 結果からは、観測範囲が狭くなるほど完走率が大きくなっていることがわかる。
 
 完走率を求めるための試行量が足りているかについては、
@@ -272,7 +273,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 の条件は、スタートから30mのあたりで
 自己位置推定が破綻することがあった。
 \textcircled{\scriptsize 1}\textcircled{\scriptsize 4}\noindent
-は観測範囲が0であるため、推定値と真値が徐々にずれていった。
+は観測範囲が0であるため、推定値が真値に対して徐々にずれていった。
 ゴール地点に到達した時には20mもの誤差になった。
 
 \begin{figure}[htbp]
@@ -285,48 +286,63 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 
 \subsection{自己位置推定の誤差}
 
-\begin{figure}[htbp]
-  \centering
-   \includegraphics[height=50mm]{fig/x_y.png}
-   \vspace*{-4mm}
-   \caption{Where localization has broken down}
-   \label{fig: 失敗箇所}
-\end{figure}
+図\ref{fig: plot}に、実験方法Bにより求めた、
+真値（reference）に対する各パーティクルの条件での
+自己位置推定値の誤差を示す。
+まず、xy平面上に真値と自己位置推定をプロットしたものを見ると、
+条件
+\textcircled{\scriptsize 3}\textcircled{\scriptsize 7}\noindent
+\textcircled{\scriptsize 8}\textcircled{\scriptsize 9}\noindent
+の場合、スタートから約10mの場所から自己位置の推定誤差が大きくなり、自己位置推定破綻を起こした。
+条件
+\textcircled{\scriptsize 1}\textcircled{\scriptsize 4}\noindent
+の場合、スタートから約19mの場所から自己位置の推定誤差が大きくなり、自己位置推定破綻を起こした。
+条件
+\textcircled{\scriptsize 2}\textcircled{\scriptsize 5}\noindent
+\textcircled{\scriptsize 6}\textcircled{\scriptsize 10}\noindent
+は、スタートから約15~20mの場所から自己位置の推定誤差が大きくなり始めたが、
+20m以降は一定の誤差のままゴールまで到達した。
+中でも条件
+\textcircled{\scriptsize 5}\noindent
+の誤差が小さいように見える。
+
+xy平面上に真値と自己位置推定をプロットしたものの中でも
+自己位置の推定誤差が小さかった4つの条件
+\textcircled{\scriptsize 2}\textcircled{\scriptsize 5}\noindent
+\textcircled{\scriptsize 6}\textcircled{\scriptsize 10}\noindent
+において、真値に対する自己位置推定値のユークリッド誤差、横誤差、縦誤差
+をプロットした。
+4つの条件の中でも、条件
+\textcircled{\scriptsize 2}\textcircled{\scriptsize 5}\noindent
+の誤差が小さいように見える。
+しかし、誤差が小さいといっても、それぞれの条件において、
+最大で横誤差が0.4m、縦誤差が0.8m、ユークリッド誤差が0.8mもあるときがある。
 
 \begin{figure}[htbp]
-  \centering
-   \includegraphics[height=50mm]{fig/euclidean_error.png}
-   \vspace*{-4mm}
-   \caption{Where localization has broken down}
-   \label{fig: 失敗箇所}
-\end{figure}
-
-\begin{figure}[htbp]
-  \centering
-   \includegraphics[height=50mm]{fig/lateral_error.png}
-   \vspace*{-4mm}
-   \caption{Where localization has broken down}
-   \label{fig: 失敗箇所}
+  \begin{center}
+  \begin{tabular}{cc}
+  \includegraphics[height=48mm]{fig/x_y.png} \\
+  \includegraphics[height=48mm]{fig/euclidean_error.png} \\
+  \includegraphics[height=48mm]{fig/lateral_error.png} \\
+  \includegraphics[height=45mm]{fig/longitudinal_error.png} 
+  \end{tabular}
+  \caption{
+    Plot the true value and the self-estimated position value,
+     and the lateral direction and the longitudinal 
+    direction and Euclidean error with respect to the true value.}
+  \label{fig: plot}
+  \end{center}
 \end{figure}
 
 \subsection{手法を実装したMCLで使用されている観測範囲}
 
-\begin{figure}[htbp]
+\begin{figure}[t]
   \centering
-   \includegraphics[height=100mm]{fig/particle_1000_observation_1_mcl_gazebo.png}
+   \includegraphics[height=70mm]{fig/particle_1000_observation_1_mcl.png}
    \vspace*{-4mm}
    \caption{The robot navigates from the start to the goal.}
-   \label{fig: スタートからゴールまでナビゲーションガゼボ}
+   \label{fig: スタートからゴールまでナビゲーション}
 \end{figure}
-
-\begin{figure}[htbp]
-  \centering
-   \includegraphics[height=100mm]{fig/particle_1000_observation_1_mcl_rviz.png}
-   \vspace*{-4mm}
-   \caption{Where localization has broken down}
-   \label{fig: 失敗箇所}
-\end{figure}
-
 
 \section{結言}%===========================
 
