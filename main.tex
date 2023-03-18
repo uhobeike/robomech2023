@@ -135,15 +135,16 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 今回、使用した環境を図\ref{fig: 人混みガゼボ}、
 \ref{fig: つくばチャレンジ人混みシミュレータ}に示す。
 この環境は、図\ref{fig: つくばチャレンジ人混み}のつくばチャレンジでの人混みの環境を模したものである。
+環境には、人型や箱型の未知障害物を多く配置した。全ての未知障害物は速度0[m/s]である。
 
 今回使用したPCの環境を表\ref{table: PCの環境}に示す。
-シミュレータソフトウェアとしてGazebo、ナビゲーションのシステムとしてROS Noeticを使用する。
+シミュレータのソフトウェアとしてGazebo、ナビゲーションのシステムとしてROS Noeticを使用する。
 
 実験に用いるシミュレータ内のロボットは、図\ref{fig: raspicat}のような差動二輪型のロボットである。
 ロボットおよび搭載しているセンサの性能について、表\ref{table: ロボットおよび搭載しているセンサの性能}に示す。
-1mの高さに2D LiDARを搭載しており、2D LiDARの観測範囲は360°であり、角度分解能は1°である。
+図\ref{fig: raspicat}には示されていないが、1mの高さに観測用のセンサとして、2D LiDARを搭載している。
+2D LiDARの観測範囲は360°であり、角度分解能は1°である。
 ロボットの最高速度は、3[m/s]である。
-
 
 \begin{table}[hbtp]
   \caption{experimental environment}
@@ -167,6 +168,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
   \begin{tabular}{lcr}
     \hline
     ロボットの最高速度 & 3[m/s] \\
+    2D LiDARの取り付け高さ & 1[m] \\
     2D LiDARの観測範囲 & 360° \\
     2D LiDARの角度分解能 & 1° \\
     \hline
