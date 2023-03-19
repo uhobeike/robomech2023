@@ -46,9 +46,8 @@ Not decided yet.
 
 近年、自律移動ロボットの自己位置推定手法として、 Monte Carlo localization（MCL）\cite{MCL}
 がよく用いられる。MCLは、ロボットのとりうる姿勢
-$\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_{min}, y_{max}] ,\theta \in [-\pi, \pi)] )\}$
 を多数のパーティクルで近似し、
-予測更新、観測更新、リサンプリングにより、推定した姿勢$\bm{x}$${ = (x, y, \Theta)}$を出力とするアルゴリズムである。
+予測更新、観測更新、リサンプリングにより、推定した姿勢を出力とするアルゴリズムである。
 また、MCLのアルゴリズムで使用されるパーティクルフィルタは、
 他の自己位置推定用フィルタと比較すると、
 パーティクルの数によって計算量が増加してしまうが、
@@ -179,7 +178,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
   \centering
    \includegraphics[height=50mm]{fig/hitogomi_gazebo.png}
    \vspace*{-4mm}
-   \caption{Where localization has broken down}
+   \caption{A simulator that mimics the crowds at the start of Tsukuba Challenge 2022}
    \label{fig: 人混みガゼボ}
 \end{figure}
 
@@ -187,7 +186,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
   \centering
    \includegraphics[height=70mm]{fig/environment_comparison.png}
    \vspace*{-4mm}
-   \caption{A simulator that mimics the crowds at the start of Tsukuba Challenge 2022}
+   \caption{Environment without unknown obstacles (left), environment with unknown obstacles (right)}
    \label{fig: つくばチャレンジ人混みシミュレータ}
 \end{figure}
 
@@ -195,7 +194,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
   \centering
    \includegraphics[height=50mm]{fig/raspicat_gazebo.png}
    \vspace*{-4mm}
-   \caption{Where localization has broken down}
+   \caption{Differential two-wheeled model robot used in the simulator}
    \label{fig: raspicat}
 \end{figure}
 
@@ -217,7 +216,7 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
   \item スタートからゴールまでの完走率（実験方法A）
   \item スタートからゴールまで走行したときの真値との比較（実験方法B）
   \item パーティクルの観測更新に最も使用された観測（実験方法A）
-  \item 計算時間の増減（実験方法A）
+  % \item 計算時間の増減（実験方法A）
 \end{itemize}
 
 \subsection{実験目的}
@@ -260,13 +259,10 @@ $\mathcal{X}$$=$$\{\bm{x}=(x, y, \Theta)^T | x \in [x_{min}, x_{max}], y \in [y_
 \textcircled{\scriptsize 7}\textcircled{\scriptsize 10}\noindent
 の条件は、スタートから30mのあたりで
 自己位置推定が破綻することがあった。
-\textcircled{\scriptsize 1}\textcircled{\scriptsize 4}\noindent
-は観測範囲が0であるため、推定値が真値に対して徐々にずれていった。
-ゴール地点に到達した時には20mもの誤差になった。
 
 \begin{figure}[htbp]
   \centering
-   \includegraphics[height=100mm]{fig/failure_location.png}
+   \includegraphics[height=90mm]{fig/failure_location.png}
    \vspace*{-4mm}
    \caption{Where localization has broken down}
    \label{fig: 失敗箇所}
@@ -342,41 +338,51 @@ xy平面上に真値と自己位置推定をプロットしたものの中でも
   \centering
    \includegraphics[height=70mm]{fig/particle_1000_observation_1_mcl.png}
    \vspace*{-4mm}
-   \caption{The robot navigates from the start to the goal.}
+   \caption{Navigation from start to finish (left) and visualization of observations used in the observation update (right)}
    \label{fig: スタートからゴールまでナビゲーション}
 \end{figure}
 
-\subsection{実装による計算時間の増減}
+% \subsection{実装による計算時間の増減}
 
-自己位置の推定誤差が小さかった4つの条件
-\textcircled{\scriptsize 2}\textcircled{\scriptsize 5}\noindent
-\textcircled{\scriptsize 6}\textcircled{\scriptsize 10}\noindent
-と、元のMCLと同じ条件である
-\textcircled{\scriptsize 3}\noindent
-において、観測更新の計算時間を計測した。
-計測した時間の結果を表\ref{table:観測更新の計算時間}に示す。
-条件
-\textcircled{\scriptsize 3}\textcircled{\scriptsize 2}\noindent
-の結果を比較すると、観測範囲を狭めた場合、
-実装以前よりも計算時間が減少することがわかった。
-また、パーティクルを3000から10000個に増やした時の計算時間は
-\textcircled{\scriptsize 2}\textcircled{\scriptsize 6}\noindent
-相関して、3倍に増加していることがわかる。
+% 自己位置の推定誤差が小さかった4つの条件
+% \textcircled{\scriptsize 2}\textcircled{\scriptsize 5}\noindent
+% \textcircled{\scriptsize 6}\textcircled{\scriptsize 10}\noindent
+% と、元のMCLと同じ条件である
+% \textcircled{\scriptsize 3}\noindent
+% において、観測更新の計算時間を計測した。
+% 計測した時間の結果を表\ref{table:観測更新の計算時間}に示す。
+% 条件
+% \textcircled{\scriptsize 3}\textcircled{\scriptsize 2}\noindent
+% の結果を比較すると、観測範囲を狭めた場合、
+% 実装以前よりも計算時間が減少することがわかった。
+% また、パーティクルを3000から10000個に増やした時の計算時間は
+% \textcircled{\scriptsize 2}\textcircled{\scriptsize 6}\noindent
+% 相関して、3倍に増加していることがわかる。
 
-\begin{table}[htbp]
-  \caption{Computation time for observation updates under each particle condition}
-  \label{table:観測更新の計算時間}
-  \centering
-  \begin{tabular}{|c|r|r|r|} \hline
-  条件番号 & 平均[ms] & 標準偏差[ms]  \\ \hline \hline
-  \textcircled{\scriptsize 3} & 8.6 & 2.0   \\ \hline
-  \textcircled{\scriptsize 2} & 8.0 & 1.0   \\ \hline
-  \textcircled{\scriptsize 6} & 25.9 & 1.71 \\ \hline
-  \textcircled{\scriptsize 10} & 28.1 & 1.9  \\ \hline
-  \end{tabular}
-\end{table}
+% \begin{table}[htbp]
+%   \caption{Computation time for observation updates under each particle condition}
+%   \label{table:観測更新の計算時間}
+%   \centering
+%   \begin{tabular}{|c|r|r|r|} \hline
+%   条件番号 & 平均[ms] & 標準偏差[ms]  \\ \hline \hline
+%   \textcircled{\scriptsize 3} & 8.6 & 2.0   \\ \hline
+%   \textcircled{\scriptsize 2} & 8.0 & 1.0   \\ \hline
+%   \textcircled{\scriptsize 6} & 25.9 & 1.71 \\ \hline
+%   \textcircled{\scriptsize 10} & 28.1 & 1.9  \\ \hline
+%   \end{tabular}
+% \end{table}
+
 
 \section{結言}%===========================
+
+本稿では、各パーティクルごとにランダムな観測範囲を
+付与した場合のMCLの性能や良さそうな条件を実験により求めた。
+実験結果からは、各パーティクルごとにランダムな観測範囲を
+付与した場合のMCLは、パーティクルに付与する観測範囲が狭いほど、
+未知障害物が多く存在する環境下での、自己位置の推定性能が高いことがわかった。
+完走率が低くなってしまっているが、パーティクルに付与する観測範囲が狭い条件で、
+パーティクルの数を増やすことで自己位置の推定誤差を小さくできる可能性があることがわかった。
+
 
 \footnotesize
 \begin{thebibliography}{99}
