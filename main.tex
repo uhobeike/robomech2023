@@ -70,12 +70,12 @@ Not decided yet.
 その近くにある未知障害物が地図に載っている静的障害物であるとしてしまうことに起因する。
 照合を誤った場合、結果的にそれが原因で自己位置推定が破綻する。
 
-未知障害物による自己位置推定の破綻に対応するための、富沢ら\cite{富沢}、赤井ら\cite{赤井}の研究がある。
-富沢ら\cite{富沢}は、測域センサで観測したローカル地図と環境地図を
+未知障害物による自己位置推定の破綻に対応するための、富沢ら\cite{富沢2012}、赤井ら\cite{赤井2019}の研究がある。
+富沢ら\cite{富沢2012}は、測域センサで観測したローカル地図と環境地図を
 二値のグリッドマップで表現し、各パーティクル位置における画像の不一致ピクセル量に基づいたパー
 ティクルの尤度評価方法を提案した。また、この手法において、動的環境でロバストに自己位置を
 推定し、経路に沿って安全に走行できることを証明した。
-赤井ら\cite{赤井}は自己位置とセンサ観測のクラスを同時推定す
+赤井ら\cite{赤井2019}は自己位置とセンサ観測のクラスを同時推定す
 る方法を提案した。この手法により、地図上にある観測であるか判別できるようにした。
 これを利用し、地図上に存在する障害物から得られている
 センサ観測のみをパーティクルの観測更新に使用することで、
@@ -306,10 +306,10 @@ xy平面上に真値と自己位置推定をプロットしたものの中でも
 \begin{figure}[htbp]
   \begin{center}
   \begin{tabular}{cc}
-  \includegraphics[height=48mm]{fig/x_y.png} \\
-  \includegraphics[height=48mm]{fig/euclidean_error.png} \\
-  \includegraphics[height=48mm]{fig/lateral_error.png} \\
-  \includegraphics[height=45mm]{fig/longitudinal_error.png} 
+  \includegraphics[height=46mm]{fig/x_y.png} \\
+  \includegraphics[height=46mm]{fig/euclidean_error.png} \\
+  \includegraphics[height=46mm]{fig/lateral_error.png} \\
+  \includegraphics[height=46mm]{fig/longitudinal_error.png} 
   \end{tabular}
   \caption{
     Plot the true value and the self-estimated position value,
@@ -319,7 +319,7 @@ xy平面上に真値と自己位置推定をプロットしたものの中でも
   \end{center}
 \end{figure}
 
-\subsection{使用されている観測範囲}
+\subsection{使用される観測}
 
 2節で説明した手法をMCLに実装すると、
 各パーティクルは観測範囲を持ち、
