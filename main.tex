@@ -338,8 +338,6 @@ xy平面上に真値と自己位置推定をプロットしたものの中でも
 未知障害物の観測であるのに緑色になっている部分が少しあるが、
 ほとんど既知障害物の観測を選択出ていることがわかる。
 
-
-
 \begin{figure}[t]
   \centering
    \includegraphics[height=70mm]{fig/particle_1000_observation_1_mcl.png}
@@ -348,8 +346,36 @@ xy平面上に真値と自己位置推定をプロットしたものの中でも
    \label{fig: スタートからゴールまでナビゲーション}
 \end{figure}
 
-\section{結言}%===========================
+\subsection{実装による計算時間の増減}
 
+自己位置の推定誤差が小さかった4つの条件
+\textcircled{\scriptsize 2}\textcircled{\scriptsize 5}\noindent
+\textcircled{\scriptsize 6}\textcircled{\scriptsize 10}\noindent
+と、元のMCLと同じ条件である
+\textcircled{\scriptsize 3}\noindent
+において、観測更新の計算時間を計測した。
+計測した時間の結果を表\ref{table:観測更新の計算時間}に示す。
+条件
+\textcircled{\scriptsize 3}\textcircled{\scriptsize 2}\noindent
+の結果を比較すると、実装による計算時間の増加がないことがわかる。
+また、パーティクルを3000から10000個に増やした時の計算時間は
+\textcircled{\scriptsize 2}\textcircled{\scriptsize 6}\noindent
+相関して、3倍に増加していることがわかる。
+
+\begin{table}[htbp]
+  \caption{Computation time for observation updates under each particle condition}
+  \label{table:観測更新の計算時間}
+  \centering
+  \begin{tabular}{|c|r|r|r|} \hline
+  条件番号 & 平均[ms] & 標準偏差[ms]  \\ \hline \hline
+  \textcircled{\scriptsize 3} & 8.6 & 2.0   \\ \hline
+  \textcircled{\scriptsize 2} & 8.0 & 1.0   \\ \hline
+  \textcircled{\scriptsize 6} & 25.9 & 1.71 \\ \hline
+  \textcircled{\scriptsize 10} & 28.1 & 1.9  \\ \hline
+  \end{tabular}
+\end{table}
+
+\section{結言}%===========================
 
 \footnotesize
 \begin{thebibliography}{99}
