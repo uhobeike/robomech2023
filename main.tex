@@ -33,11 +33,19 @@
 \makeatother
 
 \abstract{ \small 
-Not decided yet.
+We modify Monte Carlo localizaiton as it can eliminate sensor measurements 
+derived from unknown obstacles. 
+Each particle in the modified MCL has its own observation range
+which is smaller than that of the sensor. 
+In the calculations of Bayes theorem and resampling, 
+the directions of the observation are changed as particles
+do not observe unrecorded obstacles on the map for self-localization.
+We have examined this method in a simulator. The result suggests that
+a restriction of the observation range makes MCL stable. 
 }
 
 \date{} % 日付を出力しない
-\keywords{Autonomous mobile robots, Navigation, LiDAR Localization, MCL, Unknown Obstacle}
+\keywords{Mobile robot navigation, Monte Carlo localization, LiDAR, Noise immunity}
 
 \maketitle
 \thispagestyle{empty}
