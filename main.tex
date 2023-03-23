@@ -114,8 +114,8 @@ MCLの側でなんらかの対策をしないと、位置推定が破綻しや�
 この手法を評価する。この評価により、
 自己位置推定に有効なセンサ情報を選別する手法の可能性を議論する。
 2章では、実装した未知障害物への対策方法、
-3章では実験の方法を説明する。
-4章では実験結果について議論し、5章で本稿をまとめる。
+3章では実験の方法と結果について説明する。
+4章で本稿をまとめる。
 
 \begin{figure}[bth]
   \centering
@@ -254,145 +254,189 @@ $\beta$[\%]のパーティクルの観測範囲を
    \label{fig:raspicat}
 \end{figure}
 
-\subsection{実験方法}
+\subsection{完走率の比較}
 
-色々なパターンのパーティクルの条件で実験をする。
-パーティクルの条件については、後述にて説明する。
-実験方法は以下のとおりである。
-\noindent
-\begin{enumerate}[A]
-  \item スタートからゴールまでオンラインでロボットのナビゲーションをする
-  \item 事前にジョイスティックでロボットをスタートからゴールまで動かす。
-        その間、得られた観測情報等を記録したデータを後から再生し、オフラインで自己位置推定をする。
-\end{enumerate}
-\noindent
-スタートとゴールは、それぞれ図\ref{fig:スタートからゴールまでナビゲーション}
-に示された位置である。
+まず、様々な観測範囲$\varphi'$でロボットを自律走行させて、
+完走率を調査した。図\ref{fig:スタートからゴールまでナビゲーション}
+左に示すスタート地点からゴール地点までを走行できれば完走とする。
+このナビゲーション自体は簡単なものであるが、
+MCLが破綻すると、完走できない。
+また、未知障害物の配置や数については、
+後述の結果のように、通常のMCLでは
+推定が破綻するように調整した。
+パーティクル数は$10,000$とした。
 
-今回の実験の評価項目は、以下のとおりである。
-\begin{itemize}
-  \item スタートからゴールまでの100回ナビゲーションさせた場合の完走率（実験方法A）
-  \item スタートからゴールまで走行したときの真値との比較（実験方法B）
-  \item パーティクルの観測更新に最も使用された観測（実験方法A）
-  % \item 計算時間の増減（実験方法A）
-\end{itemize}
-
-\section{実験結果}%===========================
-
-\subsection{完走率}
-
-表\ref{table:完走率}に、実験方法Aにより求めた、各パーティクルの条件での完走率を示す。
-結果からは、観測範囲が狭くなるほど完走率が大きくなっていることがわかる。
-
-\begin{table}[htbp]
-  \caption{completion rate under certain particle conditions}
-  \label{table:完走率}
-  \begin{tabular}{|r|r|r|r|} \hline
-  \small{条件番号} & \small{パーティクル数} & \small{観測範囲}  & \small{完走確率} \\ \hline \hline
-  \small{\textcircled{\scriptsize 1}}  & \small{3000}  & \small{0[deg]}         & \small{0.00} \\ \hline
-  \small{\textcircled{\scriptsize 2}}  & \small{3000}  & \small{10[deg]}        & \small{0.52} \\ \hline
-  \small{\textcircled{\scriptsize 3}}  & \small{3000}  & \small{360[deg]}       & \small{0.00} \\ \hline
-  \small{\textcircled{\scriptsize 4}}  & \small{10000} & \small{0[deg]}         & \small{0.00} \\ \hline
-  \small{\textcircled{\scriptsize 5}}  & \small{10000} & \small{1[deg]}         & \small{0.28} \\ \hline
-  \small{\textcircled{\scriptsize 6}}  & \small{10000} & \small{10[deg]}        & \small{0.54} \\ \hline
-  \small{\textcircled{\scriptsize 7}}  & \small{10000} & \small{45[deg]}        & \small{0.04} \\ \hline
-  \small{\textcircled{\scriptsize 8}}  & \small{10000} & \small{90[deg]}        & \small{0.00} \\ \hline
-  \small{\textcircled{\scriptsize 9}}  & \small{10000} & \small{360[deg]}       & \small{0.00} \\ \hline
-  \small{\textcircled{\scriptsize 10}} & \small{10000} & \small{1$\sim$15[deg]} & \small{0.54} \\ \hline
-  \end{tabular}
-\end{table}
-
-各パーティクルの条件において、自己位置推定が破綻した場所を
-図\ref{fig:失敗箇所}に示す。
-\textcircled{\scriptsize 3}\textcircled{\scriptsize 5}\noindent
-\textcircled{\scriptsize 8}\textcircled{\scriptsize 9}\noindent
-の条件は、スタートから12[m]あたり、
-\textcircled{\scriptsize 2}\textcircled{\scriptsize 6}\noindent
-\textcircled{\scriptsize 7}\textcircled{\scriptsize 10}\noindent
-の条件は、スタートから30[m]のあたりで
-自己位置推定が破綻することがあった。
-
-\begin{figure}[htbp]
-  \centering
-   \includegraphics[width=0.8\linewidth]{fig/failure_location.png}
-   \vspace*{-4mm}
-   \caption{Where localization has broken down}
-   \label{fig:失敗箇所}
-\end{figure}
-
-\subsection{自己位置推定の誤差}
-
-図\ref{fig:plot}に、実験方法Bにより求めた、
-真値（reference）に対する各パーティクルの条件での
-自己位置推定値の誤差を示す。
-まず、xy平面上に真値と自己位置推定をプロットしたものを見ると、
-条件
-\textcircled{\scriptsize 3}\textcircled{\scriptsize 7}\noindent
-\textcircled{\scriptsize 8}\textcircled{\scriptsize 9}\noindent
-の場合、スタートから約10[m]の場所から自己位置の推定誤差が大きくなり、自己位置推定破綻を起こした。
-条件
-\textcircled{\scriptsize 1}\textcircled{\scriptsize 4}\noindent
-の場合、スタートから約19[m]の場所から自己位置の推定誤差が大きくなり、自己位置推定破綻を起こした。
-条件
-\textcircled{\scriptsize 2}\textcircled{\scriptsize 5}\noindent
-\textcircled{\scriptsize 6}\textcircled{\scriptsize 10}\noindent
-は、スタートから約15$\sim$20[m]の場所から自己位置の推定誤差が大きくなり始めたが、
-20[m]以降は一定の誤差のままゴールまで到達した。
-中でも条件
-\textcircled{\scriptsize 5}\noindent
-の誤差が小さいように見える。
-
-xy平面上に真値と自己位置推定をプロットしたものの中でも
-自己位置の推定誤差が小さかった4つの条件
-\textcircled{\scriptsize 2}\textcircled{\scriptsize 5}\noindent
-\textcircled{\scriptsize 6}\textcircled{\scriptsize 10}\noindent
-において、真値に対する自己位置推定値のユークリッド誤差、横誤差、縦誤差
-をプロットした。
-4つの条件の中でも、条件
-\textcircled{\scriptsize 2}\textcircled{\scriptsize 5}\noindent
-の誤差が小さいように見える。
-しかし、誤差が小さいといっても、それぞれの条件において、
-最大で横誤差が0.4[m]、縦誤差が0.8[m]、ユークリッド誤差が0.8[m]もある。
-
-\begin{figure}[htbp]
-  \begin{center}
-  \begin{tabular}{cc}
-  \includegraphics[width=0.8\linewidth]{fig/x_y.png} \\
-  \includegraphics[width=0.8\linewidth]{fig/euclidean_error.png} \\
-  \includegraphics[width=0.8\linewidth]{fig/lateral_error.png} \\
-  \includegraphics[width=0.8\linewidth]{fig/longitudinal_error.png} 
-  \end{tabular}
-  \caption{
-    Plot the true value and the self-estimated position value,
-     and the lateral direction and the longitudinal 
-    direction and Euclidean error with respect to the true value.}
-  \label{fig:plot}
-  \end{center}
-\end{figure}
-
-\subsection{使用される観測}
-
-2章で説明した手法をMCLに実装すると、
-各パーティクルは観測範囲を持ち、
-未知障害物が含まれないような観測を
-パーティクルの観測更新に使用するようになる。
-図\ref{fig:スタートからゴールまでナビゲーション}の左の図のようにロボットを
-スタートからゴールまでナビゲーションをさせた時
-観測更新においてどの観測を使用していたか、可視化したものを
-図\ref{fig:スタートからゴールまでナビゲーション}の右の図に示す。
-このときのパーティクルの条件は、パーティクルの数10000、観測範囲1[deg]である。
-赤色が、スタートからゴールまでの全観測であり、
-緑色が、手法の実装によって既知障害物の観測として求められた観測である。
-未知障害物の観測であるのに緑色になっている部分が少しあるが、
-ほとんど既知障害物の観測を選択していることがわかる。
+観測範囲を変えて、それぞれの観測範囲で
+$100$回試行した結果を表\ref{table:完走率}
+に示す。センサを用いない場合（$2\varphi' = 0$[deg]）
+や観測範囲に制限を設けない場合（$2\varphi' = 360$[deg]）
+は、完走した試行が一度もなかった。
+一方、$2\varphi' = 1$[deg]と極端に観測範囲を狭めた場合の
+完走率は$28$[\%]、
+$2\varphi' = 10$[deg]の場合については$54$[\%]となった。
 
 \begin{figure}[t]
   \centering
    \includegraphics[width=0.8\linewidth]{fig/particle_1000_observation_1_mcl.png}
-   \vspace*{-4mm}
    \caption{Navigation from start to finish (left) and visualization of observations used in the observation update (right)}
    \label{fig:スタートからゴールまでナビゲーション}
 \end{figure}
+
+\begin{table}[htbp]
+	\centering
+	\caption{Relation between the observation range and the number of success trials}
+  \label{table:完走率}
+	\begin{small}
+  \begin{tabular}{|r|r|r|r|} \hline
+  $2\varphi'$[deg]  & \small{完走率} \\ \hline \hline
+  {0}         & {0.00} \\ \hline
+  {1}         & {0.28} \\ \hline
+  {10}        & {0.54} \\ \hline
+  {45}        & {0.04} \\ \hline
+  {90}        & {0.00} \\ \hline
+  {360}       & {0.00} \\ \hline
+  \end{tabular}
+	\end{small}
+\end{table}
+
+図\ref{fig:スタートからゴールまでナビゲーション}右は、
+観測範囲が$2\varphi' = 10$[deg]のときに、
+観測対象となった距離計測値と、
+ならなかった距離計測値を、
+障害物上にプロットしたものである。
+緑色が観測対象となった距離計測値で、
+ほとんどが既知障害物を計測したものとなっている。
+2章の手法で、未知障害物を計測した値を
+除去することが可能であることが分かる。
+
+
+
+
+%実験方法は以下のとおりである。
+%\noindent
+%\begin{enumerate}[A]
+%  \item スタートからゴールまでオンラインでロボットのナビゲーションをする
+%  \item 事前にジョイスティックでロボットをスタートからゴールまで動かす。
+%        その間、得られた観測情報等を記録したデータを後から再生し、オフラインで自己位置推定をする。
+%\end{enumerate}
+%\noindent
+%スタートとゴールは、それぞれ図\ref{fig:スタートからゴールまでナビゲーション}
+%に示された位置である。
+
+%今回の実験の評価項目は、以下のとおりである。
+%\begin{itemize}
+%  \item スタートからゴールまでの100回ナビゲーションさせた場合の完走率（実験方法A）
+%  \item スタートからゴールまで走行したときの真値との比較（実験方法B）
+%  \item パーティクルの観測更新に最も使用された観測（実験方法A）
+%  % \item 計算時間の増減（実験方法A）
+%\end{itemize}
+
+
+%表\ref{table:完走率}に、実験方法Aにより求めた、各パーティクルの条件での完走率を示す。
+%結果からは、観測範囲が狭くなるほど完走率が大きくなっていることがわかる。
+
+%\begin{table}[htbp]
+%  \caption{completion rate under certain particle conditions}
+%  \label{table:完走率2}
+%  \begin{tabular}{|r|r|r|r|} \hline
+%  \small{条件番号} & \small{パーティクル数} & \small{観測範囲}  & \small{完走確率} \\ \hline \hline
+%  \small{\textcircled{\scriptsize 1}}  & \small{3000}  & \small{0[deg]}         & \small{0.00} \\ \hline
+%  \small{\textcircled{\scriptsize 2}}  & \small{3000}  & \small{10[deg]}        & \small{0.52} \\ \hline
+%  \small{\textcircled{\scriptsize 3}}  & \small{3000}  & \small{360[deg]}       & \small{0.00} \\ \hline
+%  \small{\textcircled{\scriptsize 4}}  & \small{10000} & \small{0[deg]}         & \small{0.00} \\ \hline
+%  \small{\textcircled{\scriptsize 5}}  & \small{10000} & \small{1[deg]}         & \small{0.28} \\ \hline
+%  \small{\textcircled{\scriptsize 6}}  & \small{10000} & \small{10[deg]}        & \small{0.54} \\ \hline
+%  \small{\textcircled{\scriptsize 7}}  & \small{10000} & \small{45[deg]}        & \small{0.04} \\ \hline
+%  \small{\textcircled{\scriptsize 8}}  & \small{10000} & \small{90[deg]}        & \small{0.00} \\ \hline
+%  \small{\textcircled{\scriptsize 9}}  & \small{10000} & \small{360[deg]}       & \small{0.00} \\ \hline
+%  \small{\textcircled{\scriptsize 10}} & \small{10000} & \small{1$\sim$15[deg]} & \small{0.54} \\ \hline
+%  \end{tabular}
+%\end{table}
+%
+%各パーティクルの条件において、自己位置推定が破綻した場所を
+%図\ref{fig:失敗箇所}に示す。
+%\textcircled{\scriptsize 3}\textcircled{\scriptsize 5}\noindent
+%\textcircled{\scriptsize 8}\textcircled{\scriptsize 9}\noindent
+%の条件は、スタートから12[m]あたり、
+%\textcircled{\scriptsize 2}\textcircled{\scriptsize 6}\noindent
+%\textcircled{\scriptsize 7}\textcircled{\scriptsize 10}\noindent
+%の条件は、スタートから30[m]のあたりで
+%自己位置推定が破綻することがあった。
+
+%\begin{figure}[htbp]
+%  \centering
+%   \includegraphics[width=0.8\linewidth]{fig/failure_location.png}
+%   \vspace*{-4mm}
+%   \caption{Where localization has broken down}
+%   \label{fig:失敗箇所}
+%\end{figure}
+
+%\subsection{自己位置推定の誤差}
+%
+%図\ref{fig:plot}に、実験方法Bにより求めた、
+%真値（reference）に対する各パーティクルの条件での
+%自己位置推定値の誤差を示す。
+%まず、xy平面上に真値と自己位置推定をプロットしたものを見ると、
+%条件
+%\textcircled{\scriptsize 3}\textcircled{\scriptsize 7}\noindent
+%\textcircled{\scriptsize 8}\textcircled{\scriptsize 9}\noindent
+%の場合、スタートから約10[m]の場所から自己位置の推定誤差が大きくなり、自己位置推定破綻を起こした。
+%条件
+%\textcircled{\scriptsize 1}\textcircled{\scriptsize 4}\noindent
+%の場合、スタートから約19[m]の場所から自己位置の推定誤差が大きくなり、自己位置推定破綻を起こした。
+%条件
+%\textcircled{\scriptsize 2}\textcircled{\scriptsize 5}\noindent
+%\textcircled{\scriptsize 6}\textcircled{\scriptsize 10}\noindent
+%は、スタートから約15$\sim$20[m]の場所から自己位置の推定誤差が大きくなり始めたが、
+%20[m]以降は一定の誤差のままゴールまで到達した。
+%中でも条件
+%\textcircled{\scriptsize 5}\noindent
+%の誤差が小さいように見える。
+%
+%xy平面上に真値と自己位置推定をプロットしたものの中でも
+%自己位置の推定誤差が小さかった4つの条件
+%\textcircled{\scriptsize 2}\textcircled{\scriptsize 5}\noindent
+%\textcircled{\scriptsize 6}\textcircled{\scriptsize 10}\noindent
+%において、真値に対する自己位置推定値のユークリッド誤差、横誤差、縦誤差
+%をプロットした。
+%4つの条件の中でも、条件
+%\textcircled{\scriptsize 2}\textcircled{\scriptsize 5}\noindent
+%の誤差が小さいように見える。
+%しかし、誤差が小さいといっても、それぞれの条件において、
+%最大で横誤差が0.4[m]、縦誤差が0.8[m]、ユークリッド誤差が0.8[m]もある。
+
+%\begin{figure}[htbp]
+%  \begin{center}
+%  \begin{tabular}{cc}
+%  \includegraphics[width=0.8\linewidth]{fig/x_y.png} \\
+%  \includegraphics[width=0.8\linewidth]{fig/euclidean_error.png} \\
+%  \includegraphics[width=0.8\linewidth]{fig/lateral_error.png} \\
+%  \includegraphics[width=0.8\linewidth]{fig/longitudinal_error.png} 
+%  \end{tabular}
+%  \caption{
+%    Plot the true value and the self-estimated position value,
+%     and the lateral direction and the longitudinal 
+%    direction and Euclidean error with respect to the true value.}
+%  \label{fig:plot}
+%  \end{center}
+%\end{figure}
+%
+%\subsection{使用される観測}
+
+%2章で説明した手法をMCLに実装すると、
+%各パーティクルは観測範囲を持ち、
+%未知障害物が含まれないような観測を
+%パーティクルの観測更新に使用するようになる。
+%図\ref{fig:スタートからゴールまでナビゲーション}の左の図のようにロボットを
+%スタートからゴールまでナビゲーションをさせた時
+%観測更新においてどの観測を使用していたか、可視化したものを
+%図\ref{fig:スタートからゴールまでナビゲーション}の右の図に示す。
+%このときのパーティクルの条件は、パーティクルの数10000、観測範囲1[deg]である。
+%赤色が、スタートからゴールまでの全観測であり、
+%緑色が、手法の実装によって既知障害物の観測として求められた観測である。
+%未知障害物の観測であるのに緑色になっている部分が少しあるが、
+%ほとんど既知障害物の観測を選択していることがわかる。
+
 
 % \subsection{実装による計算時間の増減}
 
@@ -427,13 +471,33 @@ xy平面上に真値と自己位置推定をプロットしたものの中でも
 
 \section{結言}%===========================
 
-本稿では、各パーティクルごとにランダムな観測範囲を
-付与した場合のMCLの性能や良さそうな条件を実験により求めた。
-実験結果からは、各パーティクルごとにランダムな観測範囲を
-付与した場合のMCLは、パーティクルに付与する観測範囲が狭いほど、
-未知障害物が多く存在する環境下での、自己位置の推定性能が高いことがわかった。
-また、完走率が低くなってしまっているが、パーティクルに付与する観測範囲が狭い条件で、
-パーティクルの数を増やすことで自己位置の推定誤差を小さくできる可能性があることがわかった。
+本稿では、MCLとLiDARを組み合わせて自己位置推定するときに、
+未知障害物を計測したセンサ値を省く仕組みを提案し、
+評価した。具体的な方法は、
+各パーティクルごとに2次元LiDARの観測範囲を制限し、
+観測する方向をランダムに変えるというものであった。
+シミュレータ内に構築した未知障害物の多い環境で、
+数種類の観測範囲を試したところ、
+360[deg]観測可能なLiDARに対し、1[deg]や10[deg]など、
+極端に観測範囲を制限したほうが良好な結果が得られた。
+
+
+今後は、観測範囲を制限することで起こる
+悪影響はないかを確認するために、
+実環境で実験する。
+また、観測範囲を制限したことで
+計算量が減少しているはずであるが未検証なので、
+この点についても調査する。
+
+%付与した場合のMCLの性能や良さそうな条件を実験により求めた。
+
+%本稿では、各パーティクルごとにランダムな観測範囲を
+%付与した場合のMCLの性能や良さそうな条件を実験により求めた。
+%実験結果からは、各パーティクルごとにランダムな観測範囲を
+%付与した場合のMCLは、パーティクルに付与する観測範囲が狭いほど、
+%未知障害物が多く存在する環境下での、自己位置の推定性能が高いことがわかった。
+%また、完走率が低くなってしまっているが、パーティクルに付与する観測範囲が狭い条件で、
+%パーティクルの数を増やすことで自己位置の推定誤差を小さくできる可能性があることがわかった。
 
 
 \footnotesize
