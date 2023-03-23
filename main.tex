@@ -67,9 +67,10 @@ MCLはLiDARからの距離の情報と地図の障害物の位置を
 比較し、ロボットの位置と向き（位置と向きをあわせて、以後「姿勢」と呼ぶ）を求める。
 
 
-この方式の場合、地図に記載のない障害物が雑音となる。
+この方式の場合、地図に記載のない障害物
+（未知障害物と呼ぶ）が雑音となる。
 屋外では歩行者や走行中、停車中の自動車、自転車などが、
-地図に記載できない障害物となる。
+未知障害物となる。
 例として、図\ref{fig:つくばチャレンジ人混み}に、
 つくばチャレンジ\cite{つくばチャレンジ}の様子を示す。
 つくばチャレンジというのは、
@@ -102,17 +103,17 @@ MCLの側でなんらかの対策をしないと、位置推定が破綻しや�
 
 これらの手法は、移動ロボットでも有効性が検証されている一方、
 計算量が通常のMCLより大きくなる。
-そこで筆者らは、「地図にない障害物に当たったレーザーを無視」することを考えた。
+そこで筆者らは、「未知障害物に当たったレーザーを無視」することを考えた。
 逆に言うと、センサから送られてくる情報から、
 自己位置推定に有効なものだけを選別して利用するという考え方となる。
 この方法の場合、MCLへ入力されるセンサ情報は減るので、
 選別アルゴリズムの計算量が小さければ、むしろ全体の計算量は減少する。
 
-そこで本稿では、地図にない障害物に
+そこで本稿では、未知障害物に
 当たったであろうレーザーを無視する簡素な手法をひとつ示し、
 この手法を評価する。この評価により、
 自己位置推定に有効なセンサ情報を選別する手法の可能性を議論する。
-2章では、実装した地図にない障害物への対策方法、
+2章では、実装した未知障害物への対策方法、
 3章では実験の方法を説明する。
 4章では実験結果について議論し、5章で本稿をまとめる。
 
@@ -142,7 +143,7 @@ $\varphi^{(i)}+\varphi' \le \varphi_\text{max}$とする。
 
 このように観測範囲を限定し、
 パーティクルごとに可変とする狙いは、
-地図にない障害物に観測範囲が向いている
+未知障害物に観測範囲が向いている
 パーティクルを減らすことである。
 たとえば自己位置推定が安定している状態で
 ロボットが直線状の通路を前進していると、
@@ -155,11 +156,9 @@ $\varphi^{(i)}+\varphi' \le \varphi_\text{max}$とする。
 この際、生き残ったパーティクルは、
 複製される。
 このような淘汰が進むと、
-パーティクルが地図に記載されていない
-障害物の観測を避けるようになる。
+パーティクルが未知障害物の観測を避けるようになる。
 
-この方法は、地図に記載のない障害物
-（以後、移動障害物と表記）
+この方法は、未知障害物
 への対策になっていると同時に、
 各パーティクルにベイズの定理を適用する
 際の計算が$\Delta\varphi^{(i)}/\varphi_\text{max}$倍に減少する。
@@ -176,71 +175,82 @@ $\beta$[\%]のパーティクルの観測範囲を
 
 \subsection{実験環境}
 
-2章で説明した手法を実装し、その効果の検証をするためにシミュレータ環境を用いた。
-今回、使用した環境を図\ref{fig:人混みガゼボ}、
-\ref{fig:つくばチャレンジ人混みシミュレータ}に示す。
-この環境は、図\ref{fig:つくばチャレンジ人混み}のつくばチャレンジでの人混みの環境を模したものである。
-環境には、人型や箱型の未知障害物を多く配置した。全ての未知障害物は速度0[m/s]である。
+実験は、つくばチャレンジの環境を再現した
+シミュレータ環境で行う。
+図\ref{fig:人混みガゼボ}は、
+シミュレータ内で
+図\ref{fig:つくばチャレンジ人混み}
+の場所、状況を再現した部分である。
+図中にある壁のようなものは
+ロボットが持つ地図中に記載のある障害物（既知障害物）で、
+実機に搭載した2次元LiDARで得たデータをもとに配置している。
+同じく図中に見られるマネキンと箱は、
+図\ref{fig:つくばチャレンジ人混み}を参考に、
+未知障害物として配置した。
+これらの未知障害物は、静止している。
 
-今回使用したPCの環境を表\ref{table:PCの環境}に示す。
-シミュレータのソフトウェアとしてGazebo、ナビゲーションのシステムとしてROS Noeticを使用する。
+%今回使用したPCの環境を表\ref{table:PCの環境}に示す。
+%シミュレータのソフトウェアとしてGazebo、ナビゲーションのシステムとしてROS Noeticを使用する。
 
-実験に用いるシミュレータ内のロボットは、図\ref{fig:raspicat}のような差動二輪型のロボットである。
-ロボットおよび搭載しているセンサの性能について、表\ref{table:ロボットおよび搭載しているセンサの性能}に示す。
-図\ref{fig:raspicat}には示されていないが、1[m]の高さに観測用のセンサとして、2D LiDARを搭載している。
-2D LiDARの観測範囲は360[deg]であり、角度分解能は1[deg]である。
-ロボットの最高速度は、3[m/s]である。
+シミュレータ内で走行させるロボットは、
+図\ref{fig:raspicat}のような差動二輪型のロボットである。
+前方に観測範囲を360[deg]、角度分解能を1[deg]の2次元LiDARを
+搭載している。
+レーザーはロボットの胴体を透過するように設定してある。
+また、シミュレータ内の既知、未知障害物の高さは、
+このLiDARで検知できるように設定されている。
 
-\begin{table}[hbtp]
-  \caption{experimental environment}
-  \label{table:PCの環境}
-  \centering
-  \begin{tabular}{ll}
-    \hline
-    \small{CPU}     & \small{Core™ i9-12900K × 24} \\
-    \small{GPU}     & \small{GeForce RTX 2060} \\
-    \small{Ubuntu}  & \small{20.04} \\
-    \small{ROS}     & \small{Noetic} \\
-    \small{Gazebo}  & \small{9.0} \\
-    \hline
-  \end{tabular}
-\end{table}
 
-\begin{table}[hbtp]
-  \caption{performance of the robot and on-board sensors}
-  \label{table:ロボットおよび搭載しているセンサの性能}
-  \centering
-  \begin{tabular}{lr}
-    \hline
-    \small{ロボットの最高速度}      & \small{3[m/s]} \\
-    \small{2D LiDARの取り付け高さ}  & \small{1[m]} \\
-    \small{2D LiDARの観測範囲}      & \small{360[deg]} \\
-    \small{2D LiDARの角度分解能}    & \small{1[deg]} \\
-    \hline
-  \end{tabular}
-\end{table}
+%ロボットの最高速度は、3[m/s]とする。
+
+%\begin{table}[hbtp]
+%  \caption{experimental environment}
+%  \label{table:PCの環境}
+%  \centering
+%  \begin{tabular}{ll}
+%    \hline
+%    \small{CPU}     & \small{Core™ i9-12900K × 24} \\
+%    \small{GPU}     & \small{GeForce RTX 2060} \\
+%    \small{Ubuntu}  & \small{20.04} \\
+%    \small{ROS}     & \small{Noetic} \\
+%    \small{Gazebo}  & \small{9.0} \\
+%    \hline
+%  \end{tabular}
+%\end{table}
+
+%\begin{table}[hbtp]
+%  \caption{performance of the robot and on-board sensors}
+%  \label{table:ロボットおよび搭載しているセンサの性能}
+%  \centering
+%  \begin{tabular}{lr}
+%    \hline
+%    \small{ロボットの最高速度}      & \small{3[m/s]} \\
+%    \small{2D LiDARの取り付け高さ}  & \small{1[m]} \\
+%    \small{2D LiDARの観測範囲}      & \small{360[deg]} \\
+%    \small{2D LiDARの角度分解能}    & \small{1[deg]} \\
+%    \hline
+%  \end{tabular}
+%\end{table}
 
 \begin{figure}[htbp]
   \centering
    \includegraphics[width=0.8\linewidth]{fig/hitogomi_gazebo.png}
    \vspace*{-4mm}
-   \caption{A simulator that mimics the crowds at the start of Tsukuba Challenge 2022}
+	\caption{A scene in the simulator imitating Fig.~\ref{fig:つくばチャレンジ人混み}} 
    \label{fig:人混みガゼボ}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
-   \includegraphics[width=0.8\linewidth]{fig/environment_comparison.png}
-   \vspace*{-4mm}
-   \caption{Environment without unknown obstacles (left), environment with unknown obstacles (right)}
+   \includegraphics[width=1.0\linewidth]{fig/environment_comparison.png}
+	\caption{Environments without (left) and with (right) unknown obstacles}
    \label{fig:つくばチャレンジ人混みシミュレータ}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
-   \includegraphics[width=0.8\linewidth]{fig/raspicat_gazebo.png}
-   \vspace*{-4mm}
-   \caption{Differential two-wheeled model robot used in the simulator}
+   \includegraphics[width=0.5\linewidth]{fig/raspicat_gazebo.png}
+   \caption{The robot running in the simulator}
    \label{fig:raspicat}
 \end{figure}
 
