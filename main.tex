@@ -12,7 +12,7 @@
 \makeatletter
 \title{未知障害物環境に対応するための\\モンテカルロ自己位置推定における観測範囲の選択}
 {}
-{Observation Range Selection in Monte Carlo localization for Unknown Obstacle Environments}
+{Observation Range Selection in Monte Carlo Localization for Unknown Obstacle Environments}
 {}
 
 \author{
@@ -41,7 +41,8 @@ In the calculations of Bayes theorem and resampling,
 the directions of the observation are changed as particles
 do not observe unrecorded obstacles on the map for self-localization.
 We have examined this method in a simulator. The result suggests that
-a restriction of the observation range makes MCL stable. 
+a restriction of the observation range makes MCL stable at the expense of
+precision.
 }
 
 \date{} % 日付を出力しない
@@ -59,36 +60,37 @@ Monte Carlo localization（MCL）\cite{gutmann2002}と、
 LiDARの組み合わせで行われることが多い。
 MCLは確率的な自己位置推定手法で、
 センサの情報をベイズの定理で位置の情報に変換する。
-具体的には、数百程度のロボットの位置と向きの候補（パーティクル）を
+そのアルゴリズムは、
+数百程度のロボットの位置と向きの候補（パーティクル）を
 データとして持ち、センサの情報と一致するパーティクルを残していくことで、
-尤もらしい位置と向きを求める。
+尤もらしい位置と向きを求めるというものである。
 LiDAR（Light Detection and Ranging）は
-2次元あるいは3次元のレーザースキャナのことを指し、
-ロボットから壁などの障害物までの距離を、
-1点ではなく平面状、あるいは立体的に計測できる。
+2次元あるいは3次元のレーザースキャナのことを指す。
+LiDARは1点のレーザーで1点の距離を計測するのではなく、
+平面、あるいは立体的にレーザーをスキャンし、
+周囲の壁などの障害物の形状を一度に計測できる。
 
 
 この組み合わせの場合、
-ロボットにはLiDARのセンシング対象となる、
-壁などの障害物の位置を記録した地図を持たせることになる。
+ロボットにはMCLのために、
+LiDARのセンシング対象となる
+壁の位置を記録した地図を持たせることになる。
 MCLはLiDARからの距離の情報と地図の障害物の位置を
-比較し、ロボットの位置と向き（位置と向きをあわせて、以後「姿勢」と呼ぶ）を求める。
-
-
-この方式の場合、地図に記載のない障害物
-（未知障害物と呼ぶ）が雑音となる。
+比較し、パーティクルを操作する。
+この場合、地図に記載のない障害物
+（未知障害物と呼ぶ）は、MCLにとって雑音となる。
 屋外では歩行者や走行中、停車中の自動車、自転車などが、
 未知障害物となる。
 例として、図\ref{fig:つくばチャレンジ人混み}に、
 つくばチャレンジ\cite{つくばチャレンジ}の様子を示す。
 つくばチャレンジというのは、
 実際に人や自動車が通る横断歩道、公園において、
-ロボットを約$2$[km]自律走行させる技術チャレンジである。
+ロボットを$2$[km]以上自律走行させる技術チャレンジである。
 図\ref{fig:つくばチャレンジ人混み}を撮影したときは、
 ロボットを見物する人がスタート地点に押し寄せており、
 LiDARの示す障害物と地図上の障害物が一致しない状況であった。
 特に2次元のLiDARを用いる場合、このような状況に対し、
-MCLの側でなんらかの対策をしないと、位置推定が破綻しやすくなる。
+MCLの側でなんらかの対策をしないと、位置推定ができなくなる。
 
 この問題への対策の例として、
 富沢ら\cite{富沢2012}、赤井ら\cite{赤井2019}の研究事例がある。
