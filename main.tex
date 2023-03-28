@@ -33,10 +33,12 @@
 \makeatother
 
 \abstract{ \small 
-We modify Monte Carlo localizaiton as it can eliminate noisy sensor measurements 
-derived from unknown obstacles. 
-Each particle in the modified MCL has its own observation range
-which is smaller than that of the sensor. 
+We modify Monte Carlo localizaiton 
+as it can eliminate noisy measurements 
+from a LiDAR derived from unknown obstacles. 
+This modified method makes each particle
+have its observation direction with a range
+smaller than that of the LiDAR.
 In the calculations of Bayes theorem and resampling, 
 the directions of the observation are changed as particles
 do not observe unrecorded obstacles on the map for self-localization.
